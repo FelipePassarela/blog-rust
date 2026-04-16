@@ -15,8 +15,9 @@ impl DraftPost {
         &self.content
     }
 
-    pub fn add_text(&mut self, text: &str) {
+    pub fn add_text(mut self, text: &str) -> Self {
         self.content += text;
+        self
     }
 
     pub fn request_review(self) -> UnderReviewPost {
@@ -36,8 +37,7 @@ mod tests {
 
     #[test]
     fn add_text_append_to_content() {
-        let mut post = DraftPost::new("appended_");
-        post.add_text("content");
+        let post = DraftPost::new("appended_").add_text("content");
         assert_eq!("appended_content", post.content());
     }
 
