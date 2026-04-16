@@ -1,6 +1,6 @@
 use super::DraftPost;
 
-pub(crate) struct Post;
+pub struct Post;
 
 impl Post {
     pub fn new() -> DraftPost {

@@ -1,6 +1,6 @@
 use super::{DraftPost, PublishedPost};
 
-pub(crate) struct UnderReviewPost {
+pub struct UnderReviewPost {
     content: Box<str>,
 }
 
@@ -10,7 +10,8 @@ impl UnderReviewPost {
             content: content.into(),
         }
     }
-    fn approve(self) -> PublishedPost {
+
+    pub fn approve(self) -> PublishedPost {
         PublishedPost::new(&self.content)
     }
 

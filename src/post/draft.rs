@@ -1,6 +1,6 @@
 use super::UnderReviewPost;
 
-pub(crate) struct DraftPost {
+pub struct DraftPost {
     content: String,
 }
 

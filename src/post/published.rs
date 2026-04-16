@@ -1,6 +1,6 @@
 use super::DraftPost;
 
-pub(crate) struct PublishedPost {
+pub struct PublishedPost {
     content: Box<str>,
 }
 
@@ -15,7 +15,7 @@ impl PublishedPost {
         &self.content
     }
 
-    fn retract(self) -> DraftPost {
+    pub fn retract(self) -> DraftPost {
         DraftPost::new(&self.content)
     }
 }
