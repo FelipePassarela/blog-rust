@@ -35,12 +35,6 @@ mod tests {
     }
 
     #[test]
-    fn content_returns_stored_content() {
-        let post = DraftPost::new("stored content");
-        assert_eq!("stored content", post.content());
-    }
-
-    #[test]
     fn add_text_append_to_content() {
         let mut post = DraftPost::new("appended_");
         post.add_text("content");

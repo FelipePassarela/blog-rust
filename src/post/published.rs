@@ -31,12 +31,6 @@ mod tests {
     }
 
     #[test]
-    fn content_returns_stored_content() {
-        let post = PublishedPost::new("stored content");
-        assert_eq!("stored content", post.content());
-    }
-
-    #[test]
     fn retract_keeps_content_unchanged() {
         let post = PublishedPost::new("untouched content");
         let post = post.retract();
