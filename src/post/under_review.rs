@@ -25,7 +25,7 @@ mod tests {
     use super::UnderReviewPost;
 
     #[test]
-    fn new_keeps_content_unchanged() {
+    fn new_preserves_content() {
         let post = UnderReviewPost::new("untouched content");
         assert_eq!("untouched content", post.content.as_ref());
     }
@@ -38,7 +38,7 @@ mod tests {
     }
 
     #[test]
-    fn approve_keeps_content_unchanged() {
+    fn approve_preserves_content() {
         let post = UnderReviewPost::new("untouched content");
         let post = post.approve();
         assert_eq!("untouched content", post.content())
@@ -52,7 +52,7 @@ mod tests {
     }
 
     #[test]
-    fn reprove_keeps_content_unchanged() {
+    fn reprove_preserves_content() {
         let post = UnderReviewPost::new("untouched content");
         let post = post.reprove();
         assert_eq!("untouched content", post.content())

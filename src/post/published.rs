@@ -25,13 +25,13 @@ mod tests {
     use super::PublishedPost;
 
     #[test]
-    fn new_keeps_content_unchanged() {
+    fn new_preserves_content() {
         let post = PublishedPost::new("untouched content");
         assert_eq!("untouched content", post.content());
     }
 
     #[test]
-    fn retract_keeps_content_unchanged() {
+    fn retract_preserves_content() {
         let post = PublishedPost::new("untouched content");
         let post = post.retract();
         assert_eq!("untouched content", post.content());
