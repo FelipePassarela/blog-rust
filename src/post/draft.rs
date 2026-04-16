@@ -30,21 +30,21 @@ mod tests {
 
     #[test]
     fn new_creates_draft_with_content() {
-        let post = DraftPost::new("test content");
-        assert_eq!("test content", post.content());
+        let post = DraftPost::new("new content");
+        assert_eq!("new content", post.content());
     }
 
     #[test]
     fn content_returns_stored_content() {
-        let post = DraftPost::new("test content");
-        assert_eq!("test content", post.content());
+        let post = DraftPost::new("stored content");
+        assert_eq!("stored content", post.content());
     }
 
     #[test]
     fn add_text_append_to_content() {
-        let mut post = DraftPost::new("test_");
+        let mut post = DraftPost::new("appended_");
         post.add_text("content");
-        assert_eq!("test_content", post.content());
+        assert_eq!("appended_content", post.content());
     }
 
     #[test]
