@@ -10,6 +10,6 @@ fn approve_flow_preserves_content() {
     assert_eq!(
         "untouched content",
         post.content(),
-        "content should be preserved after approve flow"
+        "approve flow should preserve content"
     );
 }
