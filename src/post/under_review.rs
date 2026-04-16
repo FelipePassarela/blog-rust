@@ -1,4 +1,4 @@
-use crate::post::DraftPost;
+use super::{DraftPost, PublishedPost};
 
 pub(crate) struct UnderReviewPost {
     content: Box<str>,
@@ -10,9 +10,12 @@ impl UnderReviewPost {
             content: content.into(),
         }
     }
+    fn approve(self) -> PublishedPost {
+        PublishedPost::new(&self.content)
+    }
 
     pub fn reprove(self) -> DraftPost {
-        DraftPost::new(self.content.as_ref())
+        DraftPost::new(&self.content)
     }
 }
 
@@ -24,6 +27,20 @@ mod tests {
     fn new_keeps_content_unchanged() {
         let post = UnderReviewPost::new("untouched content");
         assert_eq!("untouched content", post.content.as_ref());
+    }
+
+    #[test]
+    fn approve_consumes_self() {
+        let takes_ownership: fn(UnderReviewPost) -> _ = UnderReviewPost::approve;
+        let post = UnderReviewPost::new("");
+        takes_ownership(post);
+    }
+
+    #[test]
+    fn approve_keeps_content_unchanged() {
+        let post = UnderReviewPost::new("untouched content");
+        let post = post.approve();
+        assert_eq!("untouched content", post.content())
     }
 
     #[test]
