@@ -30,27 +30,27 @@ mod tests {
 
     #[test]
     fn new_creates_draft_with_content() {
-        let draft = DraftPost::new("test content");
-        assert_eq!("test content", draft.content());
+        let post = DraftPost::new("test content");
+        assert_eq!("test content", post.content());
     }
 
     #[test]
     fn content_returns_stored_content() {
-        let draft = DraftPost::new("test content");
-        assert_eq!("test content", draft.content());
+        let post = DraftPost::new("test content");
+        assert_eq!("test content", post.content());
     }
 
     #[test]
     fn add_text_append_to_content() {
-        let mut draft = DraftPost::new("test_");
-        draft.add_text("content");
-        assert_eq!("test_content", draft.content());
+        let mut post = DraftPost::new("test_");
+        post.add_text("content");
+        assert_eq!("test_content", post.content());
     }
 
     #[test]
     fn request_review_consumes_draft() {
         let takes_ownership: fn(DraftPost) -> _ = DraftPost::request_review;
-        let draft = DraftPost::new("");
-        takes_ownership(draft);
+        let post = DraftPost::new("");
+        takes_ownership(post);
     }
 }
