@@ -1,5 +1,5 @@
 use super::{DraftPost, PublishedPost};
-use crate::RejectionReason;
+use crate::ReproveReason;
 
 pub struct UnderReviewPost {
     content: Box<str>,
@@ -17,9 +17,8 @@ impl UnderReviewPost {
     }
 
     pub fn reprove(self) -> DraftPost {
-        let reproved_tag = RejectionReason::Generic.tag();
-        let rejection_msg = RejectionReason::Generic.message();
-        let rejection_msg = format!("{reproved_tag}\n\n{rejection_msg}\n{}", self.content);
+        let rejection_msg = ReproveReason::Generic.message();
+        let rejection_msg = format!("{rejection_msg}\n{}", self.content);
         DraftPost::new(&rejection_msg)
     }
 }
@@ -27,7 +26,7 @@ impl UnderReviewPost {
 #[cfg(test)]
 mod tests {
     use super::UnderReviewPost;
-    use crate::RejectionReason;
+    use crate::ReproveReason;
 
     #[test]
     fn new_preserves_content() {
@@ -66,11 +65,7 @@ mod tests {
     #[test]
     fn reprove_inserts_message() {
         let post = UnderReviewPost::new("content").reprove();
-
-        let reproved_tag = RejectionReason::Generic.tag();
-        let rejection_msg = RejectionReason::Generic.message();
-        let rejection_msg = format!("{reproved_tag}\n\n{rejection_msg}");
-
+        let rejection_msg = ReproveReason::Generic.message();
         assert!(
             post.content().starts_with(&rejection_msg),
             "reprove should insert message in content"
