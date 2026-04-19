@@ -16,7 +16,12 @@ impl UnderReviewPost {
     }
 
     pub fn reprove(self) -> DraftPost {
-        DraftPost::new(&self.content)
+        let rejection_message = String::from(
+            "[Reproved]\n\n\
+            Your post was reproved. Please review the content and submit again for review.",
+        );
+        let rejected_content = format!("{}{}", rejection_message, self.content);
+        DraftPost::new(&rejected_content)
     }
 }
 
@@ -55,6 +60,19 @@ mod tests {
     fn reprove_preserves_content() {
         let post = UnderReviewPost::new("untouched content");
         let post = post.reprove();
-        assert_eq!("untouched content", post.content())
+        assert!(post.content().contains("untouched content"))
+    }
+
+    #[test]
+    fn reprove_inserts_message() {
+        let post = UnderReviewPost::new("content");
+        let post = post.reprove();
+        let expected_msg = "[Reproved]\n\n\
+            Your post was reproved. Please review the content and submit again for review.";
+
+        assert!(
+            post.content().starts_with(expected_msg),
+            "reprove should insert message in content"
+        );
     }
 }
