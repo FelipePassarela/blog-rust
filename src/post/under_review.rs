@@ -1,4 +1,5 @@
 use super::{DraftPost, PublishedPost};
+use crate::RejectionReason;
 
 pub struct UnderReviewPost {
     content: Box<str>,
@@ -16,18 +17,17 @@ impl UnderReviewPost {
     }
 
     pub fn reprove(self) -> DraftPost {
-        let rejection_message = String::from(
-            "[Reproved]\n\n\
-            Your post was reproved. Please review the content and submit again for review.",
-        );
-        let rejected_content = format!("{}{}", rejection_message, self.content);
-        DraftPost::new(&rejected_content)
+        let reproved_tag = RejectionReason::Generic.tag();
+        let rejection_msg = RejectionReason::Generic.message();
+        let rejection_msg = format!("{reproved_tag}\n\n{rejection_msg}\n{}", self.content);
+        DraftPost::new(&rejection_msg)
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::UnderReviewPost;
+    use crate::RejectionReason;
 
     #[test]
     fn new_preserves_content() {
@@ -65,13 +65,14 @@ mod tests {
 
     #[test]
     fn reprove_inserts_message() {
-        let post = UnderReviewPost::new("content");
-        let post = post.reprove();
-        let expected_msg = "[Reproved]\n\n\
-            Your post was reproved. Please review the content and submit again for review.";
+        let post = UnderReviewPost::new("content").reprove();
+
+        let reproved_tag = RejectionReason::Generic.tag();
+        let rejection_msg = RejectionReason::Generic.message();
+        let rejection_msg = format!("{reproved_tag}\n\n{rejection_msg}");
 
         assert!(
-            post.content().starts_with(expected_msg),
+            post.content().starts_with(&rejection_msg),
             "reprove should insert message in content"
         );
     }

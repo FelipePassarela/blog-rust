@@ -1,4 +1,4 @@
-use blog_rust::post;
+use blog_rust::{RejectionReason, post};
 
 #[test]
 fn reprove_flow_preserves_content() {
@@ -16,12 +16,13 @@ fn reprove_flow_insert_message_in_content() {
         .request_review()
         .reprove();
 
-    let expected_msg = "[Reproved]\n\n\
-        Your post was reproved. Please review the content and submit again for review.";
+    let reproved_tag = RejectionReason::Generic.tag();
+    let rejection_msg = RejectionReason::Generic.message();
+    let rejection_msg = &format!("{reproved_tag}\n\n{rejection_msg}");
 
     assert!(
-        post.content().starts_with(expected_msg),
-        "reprove flow should insert message in content"
+        post.content().starts_with(rejection_msg),
+        "reprove flow should insert rejection message in content"
     );
     assert!(
         post.content().contains("content"),
